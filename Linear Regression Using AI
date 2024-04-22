@@ -1,0 +1,28 @@
+import numpy as np
+
+class LinearRegression:
+    def __init__(self):
+        self.coefficients = None
+        
+    def fit(self, X, y):
+        X_with_intercept = np.concatenate([np.ones((X.shape[0], 1)), X], axis=1)
+        self.coefficients = np.linalg.inv(X_with_intercept.T.dot(X_with_intercept)).dot(X_with_intercept.T).dot(y)
+        
+    def predict(self, X):
+        X_with_intercept = np.concatenate([np.ones((X.shape[0], 1)), X], axis=1)
+        return X_with_intercept.dot(self.coefficients)
+
+# Example usage:
+# Sample data
+X = np.array([[10], [15], [20], [25]])  # Independent variable
+y = np.array([100000, 150000, 200000, 250000])  # Dependent variable
+
+# Create and train the model
+model = LinearRegression()
+model.fit(X, y)
+
+# Make predictions
+new_X = np.array([[30]])
+predicted_y = model.predict(new_X)
+
+print("Predicted price for 30 sq ft house:", predicted_y[0])
